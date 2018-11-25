@@ -1,1 +1,0 @@
-Para el correcto funcionamiento del juego, debe poner todos los archivos que no sean .py o .txt en una carpeta llamada "Assets"
