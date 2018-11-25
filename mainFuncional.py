@@ -20,24 +20,24 @@ NARANJA = (253, 107, 53)
 NEGRO = (40, 40, 40)
 
 # Imágenes
-imgJugador = pygame.image.load("Assets/Jugador.png")
-imgCocheAzul = pygame.image.load("Assets/CocheAzul.png")
-imgCocheRojo = pygame.image.load("Assets/CocheRojo.png")
-imgCocheNegro = pygame.image.load("Assets/CocheNegro.png")
-imgCocheAmarillo = pygame.image.load("Assets/CocheAmarillo.png")
+imgJugador = pygame.image.load("Jugador.png")
+imgCocheAzul = pygame.image.load("CocheAzul.png")
+imgCocheRojo = pygame.image.load("CocheRojo.png")
+imgCocheNegro = pygame.image.load("CocheNegro.png")
+imgCocheAmarillo = pygame.image.load("CocheAmarillo.png")
 imgCoches = [imgCocheAmarillo, imgCocheAzul, imgCocheNegro, imgCocheRojo]
-imgFondoJuego = pygame.image.load("Assets/FondoJuego.png")
-imgFondoMain = pygame.image.load("Assets/FondoMain.png")
-imgArbol = pygame.image.load("Assets/Arbol.png")
-imgIcono = pygame.image.load("Assets/Icono.png")
-imgGracias = pygame.image.load("Assets/Gracias.gif")
+imgFondoJuego = pygame.image.load("FondoJuego.png")
+imgFondoMain = pygame.image.load("FondoMain.png")
+imgArbol = pygame.image.load("Arbol.png")
+imgIcono = pygame.image.load("Icono.png")
+imgGracias = pygame.image.load("Gracias.gif")
 
 # Sonidos
-cancionFondo = pygame.mixer.Sound('Assets/Cancion.wav')
-MotorSFX = pygame.mixer.Sound('Assets/EngineStart.wav')
-crashSFX = pygame.mixer.Sound('Assets/Crash.wav')
-cornetaSFX = pygame.mixer.Sound('Assets/Corneta.wav')
-skidSFX = pygame.mixer.Sound('Assets/Skid.wav')
+cancionFondo = pygame.mixer.Sound('Cancion.wav')
+MotorSFX = pygame.mixer.Sound('EngineStart.wav')
+crashSFX = pygame.mixer.Sound('Crash.wav')
+cornetaSFX = pygame.mixer.Sound('Corneta.wav')
+skidSFX = pygame.mixer.Sound('Skid.wav')
 
 Ancho = 800
 Alto = 600
