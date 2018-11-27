@@ -75,11 +75,18 @@ def dibujarGameOver(ventana, imgGameOver):
     time.sleep(5)
     dibujar()
 
-def verificarBoom(listaEnemigos, listaMisil, puntos):
+def verificarBoom(listaEnemigos, listaMisil, imgEnemigo, imgEnemigoUno, imgEnemigoDos):
+    puntosGanados = 0
     for k in range(len(listaMisil)-1, -1, -1):
-        misil= listaMisil[k]
-        for e in range(len(listaEnemigos)-1, -1, -1):              # Recorrer con INDICES
+        misil = listaMisil[k]
+        for e in range(len(listaEnemigos)-1, -1, -1):  # Recorrer con INDICES
             cactus = listaEnemigos[e]
+            if cactus.image == imgEnemigo:
+                puntosGanados += 100
+            if cactus.image == imgEnemigoUno:
+                puntosGanados += 35
+            if cactus.image == imgEnemigoDos:
+                puntosGanados += 75
             # bala vs enemigo
             xb = misil.rect.left
             yb = misil.rect.bottom
@@ -88,8 +95,9 @@ def verificarBoom(listaEnemigos, listaMisil, puntos):
                 # hit
                 listaEnemigos.remove(cactus)
                 listaMisil.remove(misil)
-                puntos += 1
+                puntosGanados += 1
                 break
+    return puntosGanados
 
 def verificarGameOver(ventana, spriteRoca, listaMisil, imgGameOver):
     for k in range(len(listaMisil)-1, -1, -1):
@@ -177,7 +185,7 @@ def dibujar():
 
     xFondo = 0
 
-    puntos = 0
+    puntosGanados = 0
 
     # TIEMPOS
     timer = 0       # Acumulador de tiempo
@@ -304,7 +312,7 @@ def dibujar():
             ventana.blit(imgRank, (0,0))
 
         # TEXTO PANTALLA
-        texto = fuente.render("PUNTOS = %d" % puntos, 1, NEGRO)
+        texto = fuente.render("PUNTOS = %d" % puntosGanados, 1, NEGRO)
         ventana.blit(texto, (ANCHO // 2 - 370, 25))
 
         pygame.display.flip()  # Actualiza trazos (Si no llamas a esta función, no se dibuja)
