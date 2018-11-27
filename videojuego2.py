@@ -4,7 +4,6 @@
 
 import pygame
 from random import randint
-import time
 
 
 # DIMENSIONES PANTALLA:
@@ -25,6 +24,7 @@ MENU = 1
 JUGANDO = 2
 REGLAS = 3
 RANK = 4
+GAMEOVER = 5
 
 # ESTADOS DE MOVIMIENTO
 QUIETO = 1
@@ -40,6 +40,9 @@ def dibujarSuricata(ventana, spritePersonaje):
 
 def dibujarRoca(ventana, spriteRoca):
     ventana.blit(spriteRoca.image, spriteRoca.rect)
+    spriteRoca.rect.left -= 5
+    if spriteRoca.rect.left <= -spriteRoca.rect.width:
+        spriteRoca.rect.left = ANCHO + randint(20, 50)
 
 def dibujarCactus(ventana, listaEnemigos):
     # VISITAR/ACCEDER DIRECTAMENTE a cada elemento
@@ -67,13 +70,12 @@ def dibujarMenu(ventana, imgButtonPlay, imgButtonReglas, imgButtonRank):
     ventana.blit(imgButtonReglas, (ANCHO // 2 - 128, ALTO // 3 + 25))
     ventana.blit(imgButtonRank, (ANCHO // 2 - 128, ALTO // 3 + 175))
 
+
 def dibujarGameOver(ventana, imgGameOver):
     ventanaJuego = ventana
     imagenPerdio = imgGameOver
     ventanaJuego.blit(imagenPerdio, (0,0))
-    pygame.display.update()
-    time.sleep(5)
-    dibujar()
+
 
 def verificarBoom(listaEnemigos, listaMisil, imgEnemigo, imgEnemigoUno, imgEnemigoDos):
     puntosGanados = 0
@@ -99,15 +101,12 @@ def verificarBoom(listaEnemigos, listaMisil, imgEnemigo, imgEnemigoUno, imgEnemi
                 break
     return puntosGanados
 
-def verificarGameOver(ventana, spriteRoca, listaMisil, imgGameOver):
-    for k in range(len(listaMisil)-1, -1, -1):
-        misil = listaMisil[k]
-        xmisil = misil.rect.left
-        ymisil = misil.rect.bottom
-        xroca, yroca, aroca, altroca = spriteRoca.rect
-        if xmisil >= xroca and xmisil <= xroca + aroca and ymisil >= yroca and ymisil <= yroca + altroca :
-            # Game Over --> pantalla
-            dibujarGameOver(ventana, imgGameOver)
+
+def verificarGameOver(spriteRoca, spritePersonaje):
+    if spriteRoca == spritePersonaje:
+            return True
+    return False
+
 
 def dibujar():
     pygame.init()
@@ -171,7 +170,6 @@ def dibujar():
     imgButtonPlay = pygame.image.load("buttonPlay.png")
     imgButtonReglas = pygame.image.load("buttonReglas.png")
     imgButtonRank = pygame.image.load("buttonRanking.png")
-    imgRegresar = pygame.image.load("buttonRegresar.png")
     imgGameOver = pygame.image.load("Game Over.png")
 
     # IMAGENES
@@ -289,8 +287,10 @@ def dibujar():
                 spritePersonaje.rect.left += 5
             moverCactus(listaEnemigos)
             moverMisiles(listaMisil)
-            verificarBoom(listaEnemigos, listaMisil, puntos)
-            verificarGameOver(ventana, spriteRoca, listaMisil, imgGameOver)
+            pg = verificarBoom(listaEnemigos, listaMisil, imgEnemigo, imgEnemigoUno, imgEnemigoDos)
+            puntosGanados += pg
+            if verificarGameOver(spriteRoca, spritePersonaje) == True:
+                estado = GAMEOVER
 
 
             # Dibujar, aquí haces todos los trazos que requieras
@@ -310,6 +310,8 @@ def dibujar():
             ventana.blit(imgReglas, (0,0))
         elif estado == RANK:
             ventana.blit(imgRank, (0,0))
+        elif estado == GAMEOVER:
+            dibujarGameOver(ventana, imgGameOver)
 
         # TEXTO PANTALLA
         texto = fuente.render("PUNTOS = %d" % puntosGanados, 1, NEGRO)
@@ -330,3 +332,4 @@ def main():
 
 # Llama a la función principal
 main()
+
