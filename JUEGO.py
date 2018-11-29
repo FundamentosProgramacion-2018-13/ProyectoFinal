@@ -19,14 +19,40 @@ def dibujarPersonaje(ventana,spriteBolita):
 
 def moverCañon(ventana,bolitaCañon):
     xm, ym = pygame.mouse.get_pos()
-    angulo = math.asin(math.radians(ym / (xm**2+ym**2)**0.5))
-    corX = int(math.cos(math.radians(angulo)) * 100)
-    cory = int(math.sin(math.radians(angulo)) * 100)
 
+    if xm<ANCHO//2:
+        xmConvertida=xm-ANCHO//2
+    if xm>ANCHO//2:
+        xmConvertida=xm-ANCHO//2
+    if ym<ALTO//2:
+        ymConvertida=ALTO//2-ym
+    if ym>ALTO//2:
+        ymConvertida=ALTO//2-ym
+        angulo = math.atan((ymConvertida / xmConvertida))
+    #if xm==ANCHO//2 and ym==ALTO//2:
+        #pass
+    #if xm==ANCHO//2 and ym <ALTO//2:
+        #angulo=math.radians(90)
+    #if xm==ANCHO//2 and ym> ALTO//2:
+        #angulo= math.radians(270)
+    #if xm>ANCHO//2 and ym== ALTO//2:
+        #angulo=math.radians(0)
+    #if #xm<ANCHO//2 and ym==ALTO//2:
+        #angulo=math.radians(180)
+
+
+
+
+    corX = int(math.cos((angulo)) * 40)+ANCHO//2
+    cory = int((math.sin(angulo)) * 40)+ALTO//2
+    #print("coords x",xm,xmConvertida)
+    #print("coords y",ym,ymConvertida)
+    #print("angulo",angulo)
+    #print("______")
     bolitaCañon.rect.top=cory
-    bolitaCañon.rect.bottom=cory
+
     bolitaCañon.rect.left=corX
-    bolitaCañon.rect.right=corX
+
 
 
 def dibujarCañon(ventana, spriteCañon):
@@ -70,7 +96,7 @@ def dibujar():
 
         # Borrar pantalla
         ventana.fill(BLANCO)
-        dibujarPersonaje(ventana, spriteBolita)
+        #dibujarPersonaje(ventana, spriteBolita)
         dibujarCañon(ventana, spriteCañon)
         moverCañon(ventana,spriteCañon)
 
