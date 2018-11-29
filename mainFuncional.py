@@ -1,6 +1,6 @@
 # encoding: UTF-8
 # Autor: Diego Palmerín Bonada, A01747290
-# Descripción: Main
+# Descripción: Proyecto Final de Fundamentos de Programación. Por favor demen 100 para que no me peguen en mi casa
 
 import pygame
 import random
@@ -20,24 +20,24 @@ NARANJA = (253, 107, 53)
 NEGRO = (40, 40, 40)
 
 # Imágenes
-imgJugador = pygame.image.load("Jugador.png")
-imgCocheAzul = pygame.image.load("CocheAzul.png")
-imgCocheRojo = pygame.image.load("CocheRojo.png")
-imgCocheNegro = pygame.image.load("CocheNegro.png")
-imgCocheAmarillo = pygame.image.load("CocheAmarillo.png")
+imgJugador = pygame.image.load("Assets/Jugador.png")
+imgCocheAzul = pygame.image.load("Assets/CocheAzul.png")
+imgCocheRojo = pygame.image.load("Assets/CocheRojo.png")
+imgCocheNegro = pygame.image.load("Assets/CocheNegro.png")
+imgCocheAmarillo = pygame.image.load("Assets/CocheAmarillo.png")
 imgCoches = [imgCocheAmarillo, imgCocheAzul, imgCocheNegro, imgCocheRojo]
-imgFondoJuego = pygame.image.load("FondoJuego.png")
-imgFondoMain = pygame.image.load("FondoMain.png")
-imgArbol = pygame.image.load("Arbol.png")
-imgIcono = pygame.image.load("Icono.png")
-imgGracias = pygame.image.load("Gracias.gif")
+imgFondoJuego = pygame.image.load("Assets/FondoJuego.png")
+imgFondoMain = pygame.image.load("Assets/FondoMain.png")
+imgArbol = pygame.image.load("Assets/Arbol.png")
+imgIcono = pygame.image.load("Assets/Icono.png")
+imgGracias = pygame.image.load("Assets/Gracias.gif")
 
 # Sonidos
-cancionFondo = pygame.mixer.Sound('Cancion.wav')
-MotorSFX = pygame.mixer.Sound('EngineStart.wav')
-crashSFX = pygame.mixer.Sound('Crash.wav')
-cornetaSFX = pygame.mixer.Sound('Corneta.wav')
-skidSFX = pygame.mixer.Sound('Skid.wav')
+cancionFondo = pygame.mixer.Sound('Assets/Cancion.wav')
+MotorSFX = pygame.mixer.Sound('Assets/EngineStart.wav')
+crashSFX = pygame.mixer.Sound('Assets/Crash.wav')
+cornetaSFX = pygame.mixer.Sound('Assets/Corneta.wav')
+skidSFX = pygame.mixer.Sound('Assets/Skid.wav')
 
 Ancho = 800
 Alto = 600
@@ -55,7 +55,7 @@ posicionary: int = Alto // 4
 
 # Texto
 pygame.font.init()
-myfont = pygame.font.SysFont('Helvetica', 25, True, True)
+myfont = pygame.font.SysFont('Helvetica', 40, True, False)
 
 # Elementos
 botones = []
@@ -100,17 +100,6 @@ def reproducirSonido(sonidoFX):
         pygame.mixer.Sound.play(sonidoFX)
 
 
-"""
-0 = x
-1 = y
-2 = w
-3 = h
-4 = text
-5 = color
-6 = funcion
-"""
-
-
 def dibujarBotones():
     global botones
 
@@ -118,7 +107,7 @@ def dibujarBotones():
         x, y, w, h, text, color, funcion = boton_
         pygame.draw.rect(win, color, (x, y, w, h))
         textsurface = myfont.render(text, 1, BLANCO)
-        win.blit(textsurface, (x + w // 2 - len(text)/1.2 * 5, y + h // 3))
+        win.blit(textsurface, (x + w // 2 - len(text) * 8, y + h // 5))
 
 
 def llamarFuncion(fun: int):
@@ -185,10 +174,10 @@ def mainMenu():
     if not dibujado:
         win.fill(NEGRO)
         botones.clear()
-        crearBoton(posicionarx // 2 * 7, posicionary - 50, posicionarx // 2, posicionary // 2, "Musik", NEGRO, 4)
-        crearBoton(posicionarx, posicionary - 50, posicionarx * 2, posicionary // 2, "Jugar", NARANJA, 0)
-        crearBoton(posicionarx, posicionary * 2 - 50, posicionarx * 2, posicionary // 2, "Creditos", AZUL, 2)
-        crearBoton(posicionarx, posicionary * 3 - 50, posicionarx * 2, posicionary // 2, "Salir", ROJO, 1)
+        crearBoton(650, posicionary // 2 * 3, posicionarx // 3 * 2 + 8, posicionary // 2, "Audio", ROJO, 4)
+        crearBoton(posicionarx, posicionary // 2 * 2, posicionarx * 2, posicionary // 2, "Jugar", NARANJA, 0)
+        crearBoton(posicionarx, posicionary // 2 * 4, posicionarx * 2, posicionary // 2, "Creditos", AZUL, 2)
+        crearBoton(posicionarx, posicionary // 2 * 6, posicionarx * 2, posicionary // 2, "Salir", NEGRO, 1)
         dibujado = True
 
 
@@ -219,10 +208,10 @@ def mostrarCreditos():
     global dibujado
     if not dibujado:
         botones.clear()
-        crearBoton(posicionarx, posicionary//2, posicionarx * 2, posicionary // 2, "Juego por", AZUL, -1)
-        crearBoton(posicionarx, posicionary, posicionarx * 2, posicionary // 2, "Diego Palmerin", AZUL, -1)
-        crearBoton(posicionarx, posicionary // 2 * 3, posicionarx * 2, posicionary // 2, "A01747290", AZUL, -1)
-        crearBoton(posicionarx // 2 * 3, posicionary // 2 * 4, posicionarx, posicionary // 2, "Menu Principal", ROJO, 3)
+        crearBoton(posicionarx, posicionary // 2 * 2 - 50, posicionarx * 2, posicionary // 2, "Juego por", AZUL, -1)
+        crearBoton(posicionarx, posicionary // 2 * 3 - 50, posicionarx * 2, posicionary // 2, "Diego Palmerin", AZUL, -1)
+        crearBoton(posicionarx, posicionary // 2 * 4 - 50, posicionarx * 2, posicionary // 2, "A01747290", AZUL, -1)
+        crearBoton(posicionarx, posicionary // 2 * 5 - 50, posicionarx * 2, posicionary // 2, "Menu Principal", ROJO, 3)
         dibujado = True
 
 
@@ -232,15 +221,16 @@ def mostrarPuntuaciones():
         reproducirSonido(crashSFX)
         if score > record:
             record = score
-            settingstxt.write("%.2f" % score+"\n")
+            settingstxt.write("\n" + "%.2f" % score)
         botones.clear()
-        crearBoton(posicionarx // 2 * 7, posicionary - 50, posicionarx // 2, posicionary // 2, "Musik", NEGRO, 4)
-        crearBoton(posicionarx, posicionary//2, posicionarx * 2, posicionary // 2, "Uksi, Chochaste", NARANJA, -1)
-        crearBoton(posicionarx, posicionary, posicionarx * 2, posicionary // 2, "Record: %.2f s" % record, NEGRO, -1)
-        crearBoton(posicionarx, posicionary + posicionary // 2, posicionarx * 2, posicionary // 2, "Puntuación: ", AZUL, -1)
-        crearBoton(posicionarx, posicionary // 2 * 4, posicionarx * 2, posicionary // 2, "%.2f s" % score, AZUL, -1)
+        crearBoton(650, posicionary, posicionarx // 3 * 2 + 8, posicionary // 2, "Audio", ROJO, 4)
+        crearBoton(posicionarx, posicionary//2 + 50, posicionarx * 2, posicionary // 2, "Uksi, Chochaste", NARANJA, -1)
+        crearBoton(posicionarx, posicionary + 50, posicionarx * 2, posicionary // 2, "Record: %.2f s" % record, NEGRO,
+                   -1)
+        crearBoton(posicionarx, posicionary + posicionary // 2 + 50, posicionarx * 2, posicionary // 2,
+                   "Puntuación: %.2f s"% score, AZUL, -1)
         crearBoton(posicionarx, posicionary // 2 * 5, posicionarx * 2, posicionary // 2, "Volver a Jugar", NARANJA, 0)
-        crearBoton(posicionarx // 2 * 3, posicionary // 2 * 6, posicionarx, posicionary // 2, "Menu Principal", ROJO, 3)
+        crearBoton(posicionarx, posicionary // 2 * 6, posicionarx * 2, posicionary // 2, "Menu Principal", ROJO, 3)
         dibujado = True
 
 
@@ -252,9 +242,9 @@ def mainDibujar():
         dibujarCoches()
         scoreText = myfont.render("%.2f s" % score, 1, BLANCO)
         scoreTag = myfont.render("Puntaje:", 1, BLANCO)
-        pygame.draw.rect(win, AZUL, (20, 20, 100, 60))
-        win.blit(scoreText, (20 + 4 * 2, 50))
-        win.blit(scoreTag, (20 + 4 * 2, 30))
+        pygame.draw.rect(win, AZUL, (20, 20, 150, 120))
+        win.blit(scoreText, (28, 90))
+        win.blit(scoreTag, (28, 30))
     elif menuActual == 2:
         win.blit(imgFondoMain, (0, 0))
         win.blit(imgGracias, (Ancho//2 - 230, 350))
