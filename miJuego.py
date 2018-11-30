@@ -566,6 +566,7 @@ def dibujar():
             maximo = record.read()
             recordRender = font.render(maximo, 1, NEGRO)
             ventana.blit(recordRender, (450, 350))
+            record.close()
             if accion == ATTACK:
                 estado = MENU
                 hit.play()
