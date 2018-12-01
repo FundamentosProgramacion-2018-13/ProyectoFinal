@@ -177,7 +177,7 @@ selector=0
 entrada=open("record.txt","r")
 listaTop=[]
 for linea in entrada:  # LEE TODAS LAS LINEAS DEL ARCHIVO
-    listaTop.append(linea[0])
+    listaTop.append(linea)
 entrada.close()
 
 
