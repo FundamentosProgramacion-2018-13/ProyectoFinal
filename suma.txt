@@ -1,0 +1,11 @@
+flojo,58
+excelente,93
+conocimiento,135
+trabajo,67
+pasado,56
+futuro,101
+presente,102
+actitud,78
+tareas,64
+trabajando,86
+esperando,97
