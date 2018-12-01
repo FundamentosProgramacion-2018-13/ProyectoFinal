@@ -65,6 +65,7 @@ def dibujar():
     #Audio
     pygame.mixer.init()
     morder = pygame.mixer.Sound("morder.wav")
+    choca = pygame.mixer.Sound("fail.wav")
     pygame.mixer.music.load("cancionfondo.mp3")     # Canción 100% original
     pygame.mixer.music.play(80)
 
@@ -159,6 +160,7 @@ def dibujar():
                 posComida = (randint(0, 780), randint(0, 580))
 
             if inicX[0] < 0 or inicX[0] > 780 or inicY[0] < 0 or inicY[0] > 580:
+                choca.play()
                 dibujarPuntosymuerte(puntuacion, ventana)  # Si la serpiente toca los bordes, se ejecuta la funcion que da finaliza el juego
 
 
