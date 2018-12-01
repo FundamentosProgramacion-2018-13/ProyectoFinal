@@ -36,25 +36,25 @@ VIDA = 5000
 
 # Función que dibuja al personaje del jugador.
 def dibujarPersonaje(ventana, spritePlanta):
-    ventana.blit(spritePlanta.image, spritePlanta.rect)  # blit es para asignar una imagen. Pide una imagen y el lugar
+    ventana.blit(spritePlanta.image, spritePlanta.rect)
 
 
 # Función para dibujar todos los Elites de la lista que recibe.
 def dibujarElites(ventana, listaElites):
-    for enemigo in listaElites:  # Este elemento 'enemigo' for visita a cada enemigo que esta dentro de la lista
+    for enemigo in listaElites:
         ventana.blit(enemigo.image, enemigo.rect)
 
 
 # Función para dibujar todos los Grunts de la lista que recibe.
 def dibujarGrunts(ventana, listaGrunts):
-    for enemigo in listaGrunts:  # Este elemento 'enemigo' for visita a cada enemigo que esta dentro de la lista
+    for enemigo in listaGrunts:
         ventana.blit(enemigo.image, enemigo.rect)
 
 
 # Función que actualiza a los Elites de la lista que recibe.
 def actualizarElites(listaElites):
-    for enemigo in listaElites:  # Se visita cada enemigo   'for variable in lista'
-        enemigo.rect.left -= 1  # Dentro del for, se visita o se pide lo que quieres hacer
+    for enemigo in listaElites:
+        enemigo.rect.left -= 1
 
 
 # Función para dibujar las balas del jugador.
@@ -174,7 +174,7 @@ def dibujar():
     imgGrunt = pygame.image.load("Grunt.png")
     for gg in range(3):
         spriteGrunt = pygame.sprite.Sprite()
-        spriteGrunt.image = imgGrunt  # Se le asigna imagen al sprite
+        spriteGrunt.image = imgGrunt
         spriteGrunt.rect = imgGrunt.get_rect()
         spriteGrunt.rect.left = randint((ANCHO // 2) + 70, ANCHO-70)
         spriteGrunt.rect.bottom = randint(100, ALTO-20)
@@ -238,8 +238,8 @@ def dibujar():
                     spriteBullet = pygame.sprite.Sprite()
                     spriteBullet.image = imgBullet
                     spriteBullet.rect = imgBullet.get_rect()
-                    spriteBullet.rect.left = spriteCarter.rect.left + spriteCarter.rect.width  # 'x' es el ancho del
-                    spriteBullet.rect.bottom = spriteCarter.rect.bottom - spriteCarter.rect.height // 2 - 30  # personaje
+                    spriteBullet.rect.left = spriteCarter.rect.left + spriteCarter.rect.width
+                    spriteBullet.rect.bottom = spriteCarter.rect.bottom - spriteCarter.rect.height // 2 - 30
                     listaBullet.append(spriteBullet)
 
             elif evento.type == pygame.KEYUP:
@@ -329,7 +329,7 @@ def dibujar():
                         spritePlasma.image = imgPlasma
                         spritePlasma.rect = imgPlasma.get_rect()
                         spritePlasma.rect.left = enemigo.rect.left
-                        spritePlasma.rect.bottom = enemigo.rect.bottom - enemigo.rect.height // 2 + 10  # personaje
+                        spritePlasma.rect.bottom = enemigo.rect.bottom - enemigo.rect.height // 2 + 10
                         listaPlasma.append(spritePlasma)
 
             # Movimiento del personaje jugable.
@@ -344,7 +344,7 @@ def dibujar():
 
 
             ventana.fill(NEGRO)
-            ventana.blit(imgFondo, (ubicacionFondo, 0))  # y no se mueve porque es un juego horizontal
+            ventana.blit(imgFondo, (ubicacionFondo, 0))
             ventana.blit(imgFondo, (ubicacionFondo + 1024, 0))
             ubicacionFondo -= 5
             if ubicacionFondo <= -1024:
@@ -352,7 +352,7 @@ def dibujar():
 
             dibujarPersonaje(ventana, spriteCarter)
             dibujarElites(ventana, listaElites)
-            dibujarBullet(ventana, listaBullet, contRecargar, sonidoRecarga)  # Se envía la ventana y la lista de Bullets
+            dibujarBullet(ventana, listaBullet, contRecargar, sonidoRecarga)
             dibujarGrunts(ventana, listaGrunts)
             dibujarPlasma(ventana, listaPlasma, sonidoPlasma)
 
@@ -369,7 +369,7 @@ def dibujar():
             if VIDA <= 0:
                 textoFinal = fuenteTexto3.render("¡¡¡HAS PERDIDO!!! Duraste: %.3f segundos" % tiempoUniversal, 1, ROJO)
                 ventana.blit(textoFinal, (20, 200))
-                salida = open("Puntaje.txt", "w")  # Archivo de Salida
+                salida = open("Puntaje.txt", "w")
                 salida.write("Tiempo más alto al que se ha llegado: %.3f segundos" % tiempoUniversal)
                 salida.close()
                 termina = True
@@ -383,7 +383,7 @@ def dibujar():
 
     # Después del ciclo principal
     time.sleep(7)
-    pygame.quit()  # termina pygame
+    pygame.quit()
 
 
 # Función principal que manda llamar a la funció de dibujo.
