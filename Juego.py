@@ -35,15 +35,15 @@ IZQUIERDA=5
 
 # Estructura básica de un programa que usa pygame para dibujar
 
-def dibujarPersonaje(ventana, spriteEsponjaD):
+def dibujarPersonaje(ventana, spriteEsponjaD): #dibuja a Bob
     ventana.blit(spriteEsponjaD.image, (spriteEsponjaD.rect.left, spriteEsponjaD.rect.bottom))
 
 
-def actualizarBob(spriteEsponjaD, imgEsponja):
+def actualizarBob(spriteEsponjaD, imgEsponja): #cambia la direccion de Bob segun el movimeinto
     spriteEsponjaD.image = imgEsponja
 
 
-def dibujarEnemigos(ventana, listaPlanctons):
+def dibujarEnemigos(ventana, listaPlanctons): #dibuja los plancton
     for k in listaPlanctons:
         ventana.blit(k.image, k.rect)
 
@@ -53,7 +53,7 @@ def actualizarPlanctons(listaPlanctons):
     #Posiciones del plancton 1
     p1x=listaPlanctons[0].rect.left
     p1y=listaPlanctons[0].rect.bottom
-
+    #movimientos de los otros planctons en base al plancton 1
     if p1x<=206 and p1y==26+listaPlanctons[0].rect.height:
         listaPlanctons[0].rect.left+=velocidad
         listaPlanctons[1].rect.left-=velocidad
@@ -70,7 +70,7 @@ def actualizarPlanctons(listaPlanctons):
         listaPlanctons[2].rect.left -= velocidad
 
 
-def dibujarIngredientes(ventana, listaIngredientes):
+def dibujarIngredientes(ventana, listaIngredientes): #dibuja ingredientes
     for k in listaIngredientes:
         ventana.blit(k.image, k.rect)
 
@@ -88,9 +88,9 @@ def verificarColisionesPlancton(ventana, spriteEsponjaD, listaPlanctons,efecto):
         anchoS=spriteEsponjaD.rect.width
         altoS = spriteEsponjaD.rect.height
 
-        if xP+2>=xS-2 and xP+2<=xS+anchoS-2 and yP-2 >= yS+2 and yP-4 <= yS + altoS-2:
-            efecto.play()
-            imgGolpe=pygame.image.load("golpe.png")
+        if xP+2>=xS-2 and xP+2<=xS+anchoS-2 and yP-2 >= yS+2 and yP-4 <= yS + altoS-2:  #si chocan bob y plnkton
+            efecto.play()  #sonido de golpe
+            imgGolpe=pygame.image.load("golpe.png") #imagen de golpe
             spriteG = pygame.sprite.Sprite()  # Sprite vacío
             spriteG.image = imgGolpe
             spriteG.rect = imgGolpe.get_rect()
@@ -132,15 +132,16 @@ def bajarIngredientes(spriteEsponjaD, listaIngredientes, dicIngredientes):
         yI=Ingrediente.rect.bottom
         anchoI=Ingrediente.rect.width
         altoI=Ingrediente.rect.height
+        #cuando bob pase sobre el ingrediente , éste va a bajar
         if xI >= xS and xI <= xS + anchoS and yI >= yS and yI <= yS + altoS:
             dicIngredientes[k]="Abajo"
             score = 300
     bajarI(dicIngredientes, listaIngredientes)
     return score
-        #if xS+anchoS//2==xI+anchoI//2 and (yI<=yS+4 and yI>yS-altoS):
 
 
-def verificarTodosAbajo(dicIngredientes):
+
+def verificarTodosAbajo(dicIngredientes): #verificar que todos los ingredientes estan en modo Abajo
     for k in dicIngredientes:
         if dicIngredientes[k]=="quieto":
             return False
@@ -153,14 +154,14 @@ def dibujar():
     contador=1
     archivoJugadores=open("Jugadores.csv","r",encoding="UTF-8")
     titulo=archivoJugadores.readline()
-    for linea in archivoJugadores:
+    for linea in archivoJugadores: #lee cada linea
         datos=linea.split(",")
         datos[0]=int(datos[0])
         datos[1]=int(datos[1])
         datos[2]=int(datos[2])
         datosT.append(datos)
     if len(datosT)>0:
-        contador+=datos[0]
+        contador+=datos[0] #contador de jugador
 
     archivoJugadores.close()
 
@@ -183,7 +184,7 @@ def dibujar():
     dicIngredientes = {0: "quieto", 1: "quieto", 2: "quieto", 3: "quieto", 4: "quieto", 5: "quieto", 6: "quieto",
                        7: "quieto", 8: "quieto", 9: "quieto", 10: "quieto", 11: "quieto"}
 
-    # Fondos
+    # Fondos y botones
     imgFondo = pygame.image.load("fondo2.png")
 
     imgFondoM = pygame.image.load("fondoMenu.png")
@@ -430,6 +431,7 @@ def dibujar():
         tiempo+=1/40
         timer+=1/40
 
+    #escribir en el documento los datos del nuevo jugador y los datos anteriores
     salida=open("Jugadores.csv","w",encoding="UTF-8")
     salida.write(titulo)
     if len(datosT)>0:
@@ -463,26 +465,3 @@ main()
 
 
 
-"""
-def verificarColisionesIngredientes(dicIngredientes,listaIngredientes, listaPlanctons, score):
-    listaAbajo=[] #agregar ingredintes que estan bajando
-    for y in dicIngredientes:
-        if dicIngredientes[y]=="Abajo":
-            listaAbajo.append(y)
-    for x in listaAbajo:
-        Ingrediente = listaIngredientes[x]
-        xI = Ingrediente.rect.left
-        yI = Ingrediente.rect.bottom
-        anchoI = Ingrediente.rect.width
-        altoI = Ingrediente.rect.height
-
-        for k in range(len(listaPlanctons) - 1, -1, -1):
-            plancton = listaPlanctons[k]
-            xP = plancton.rect.left
-            yP = plancton.rect.bottom
-            anchoP = plancton.rect.width
-            altoP = plancton.rect.height
-
-            if xI >= xP and xI <= xP + anchoP and yI >= yP and yI <= yP + altoP:
-                listaPlanctons.remove(plancton)
-"""
