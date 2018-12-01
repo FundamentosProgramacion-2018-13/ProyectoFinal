@@ -1,0 +1,205 @@
+Autor: Jonathan Snaabria Rocha
+Descripcion: Juego 
+
+
+import pygame   # Librería de pygame
+from random import randint
+
+# Dimensiones de la pantalla
+ANCHO = 800
+ALTO = 600
+# Colores
+BLANCO = (255, 255, 255)  # R,G,B en el rango [0,255], 0 ausencia de color, 255 toda la intensidad
+VERDE_BANDERA = (27, 94, 32)    # un poco de rojo, más de verde, un poco de azul
+ROJO = (255, 0, 0)      # solo rojo, nada de verde, nada de azul
+AZUL = (0, 0, 255)      # nada de rojo, ni verde, solo azul
+NEGRO =(0, 0, 0)
+
+# Estados
+MENU = 1
+JUGANDO = 2
+
+# Estructura básica de un programa que usa pygame para dibujar
+def dibujarPersonaje(ventana, spritePlanta):
+    ventana.blit(spritePlanta.image, spritePlanta.rect)
+
+
+
+def dibujarEnemigos(ventana, listaEnemigos):
+    for enemigo in listaEnemigos:
+        ventana.blit(enemigo.image, enemigo.rect)
+
+
+def actualizarEnemigos(listaEnemigos):
+    for enemigo in listaEnemigos:
+        enemigo.rect.left -= 1
+
+
+def dibujarBalas(ventana, listaBalas):
+    for bala in listaBalas:
+        ventana.blit(bala.image, bala.rect)
+        bala.rect.left += 15
+
+def actualizarBalas(listabalas):
+    for bala in listabalas:
+        bala.rect.left += 10
+
+
+def verificarColisiones(listaBalas, listaEnemigos):
+    # recorre las listas al revés
+    for k in range(len(listaBalas)-1, -1, -1):
+        bala = listaBalas[k]
+        for e in range(len(listaEnemigos)-1, -1, -1):
+            enemigo = listaEnemigos[e]
+            # bala vs enemigo
+            xb = bala.rect.left
+            yb = bala.rect.bottom
+            xe, ye, anchoe, altoe = enemigo.rect
+            if xb>= xe and xb<=xe+anchoe and yb<=ye and yb>=ye-altoe:
+                listaEnemigos.remove(enemigo)
+
+def dibujar():
+    # Inicializa el motor de pygame
+    pygame.init()
+    # Crea una ventana de ANCHO x ALTO
+    ventana = pygame.display.set_mode((ANCHO, ALTO))  # Crea la ventana donde dibujará
+
+    reloj = pygame.time.Clock()  # Para limitar los fps
+    termina = False  # Bandera para saber si termina la ejecución, iniciamos suponiendo que no
+
+
+    #personajes
+    imgNave = pygame.image.load("nave.png")
+    spriteNave = pygame.sprite.Sprite() #Sprite vacío
+    spriteNave.image = imgNave
+    spriteNave.rect = imgNave.get_rect()
+    spriteNave.rect.left = 0
+    spriteNave.rect.bottom = ALTO//2 + spriteNave.rect.height//2
+
+    #Enemigos
+    listaEnemigos = []
+    imgEnemigo = pygame.image.load("OVNI.png")
+    for k in range(20):
+        spriteEnemigo = pygame.sprite.Sprite()
+        spriteEnemigo.image = imgEnemigo
+        spriteEnemigo.rect = imgEnemigo.get_rect()
+        spriteEnemigo.rect.left = randint(ANCHO//2, ANCHO)
+        spriteEnemigo.rect.bottom = randint(0, ALTO)
+        listaEnemigos.append(spriteEnemigo)
+
+    #Balas
+    listaBalas = []
+    imgBala = pygame.image.load("bala.png")
+
+    # Estado de juego
+    estado = MENU           # Inicial
+
+    # Fotos para el menu
+    imgBtnJugar = pygame.image.load("Play.png")
+
+    #fotos para el juego
+    imgFondo = pygame.image.load("espacio.GIF")
+    xFondo = 0
+
+    #Tiempo
+    timer = 0   #Acumulador de tiempo
+
+    # Audio
+    pygame.mixer.init()
+    efecto = pygame.mixer.Sound("Ametralladora.wav")
+    pygame.mixer.music.load("gta.mp3")
+    pygame.mixer.music.play(-1)
+
+    # Texto
+    fuente = pygame.font.SysFont("monospace", 54)
+
+
+
+    while not termina:  # Ciclo principal, MIENTRAS la variable termina sea False, el ciclo se repite automáticamente
+        # Procesa los eventos que recibe
+        for evento in pygame.event.get():
+            if evento.type == pygame.QUIT:  # El usuario hizo click en el botón de salir
+                termina = True      # Queremos terminar el ciclo
+
+            elif evento.type == pygame.KEYDOWN:
+                if evento.key == pygame.K_UP:
+                    spriteNave.rect.bottom -= 5
+
+                elif evento.key == pygame.K_DOWN:
+                    spriteNave.rect.bottom += 5
+
+                elif evento.key == pygame.K_RIGHT:
+                    spriteNave.rect.left += 5
+
+                elif evento.key == pygame.K_LEFT:
+                    spriteNave.rect.left -= 5
+
+                elif evento.key == pygame.K_z: #Disparo
+                    efecto.play()
+                    spriteBala = pygame.sprite.Sprite()
+                    spriteBala.image = imgBala
+                    spriteBala.rect = imgBala.get_rect()
+                    spriteBala.rect.left = spriteNave.rect.width
+                    spriteBala.rect.bottom = spriteNave.rect.bottom - 40
+                    listaBalas.append(spriteBala)
+
+            elif evento.type == pygame.MOUSEBUTTONDOWN:
+                xm, ym = pygame.mouse.get_pos()
+                xb = ANCHO//2 - 128
+                yb = ALTO//2 -50
+                anchoB = 256
+                altoB = 100
+                if xm >= xb and xm <= xb+anchoB and ym >= yb and ym <= yb + altoB:
+                    estado = JUGANDO
+
+        # Pregunta en que estado está el juego
+        if estado == MENU:
+            # Borrar pantalla
+            ventana.fill(NEGRO)
+            ventana.blit(imgBtnJugar, (ANCHO//2-128, ALTO//2-50))
+        elif estado == JUGANDO:
+
+            #Actualizer objetos
+            actualizarEnemigos(listaEnemigos)
+            actualizarBalas(listaBalas)
+            verificarColisiones(listaBalas, listaEnemigos)
+
+            # Disparar?
+            if timer >= 2:
+                timer = 0
+                efecto.play()
+                spriteBala = pygame.sprite.Sprite()
+                spriteBala.image = imgBala
+                spriteBala.rect = imgBala.get_rect()
+                spriteBala.rect.left = spriteNave.rect.width
+                spriteBala.rect.bottom = spriteNave.rect.bottom - 40
+                listaBalas.append(spriteBala)
+
+            # Borrar pantalla
+            ventana.fill(VERDE_BANDERA)
+            ventana.blit(imgFondo, (xFondo, 0))
+            ventana.blit(imgFondo, (xFondo + 1067,0))
+            xFondo -= 1
+
+            # Dibujar, aquí haces todos los trazos que requieras
+            dibujarPersonaje(ventana, spriteNave)
+            dibujarEnemigos(ventana, listaEnemigos)
+            dibujarBalas(ventana, listaBalas)
+            #Dibujar texto
+            texto = fuente.render("%.3f"%timer, 1, ROJO)
+            ventana.blit(texto, (200, 100))
+
+
+        pygame.display.flip()  # Actualiza trazos (Si no llamas a esta función, no se dibuja)
+        reloj.tick(60)  # 60 fps
+        timer += 1/10
+
+    # Después del ciclo principal
+    pygame.quit()  # termina pygame
+
+
+# Función principal, aquí resuelves el problema
+def main():
+    dibujar()
+
+main()
