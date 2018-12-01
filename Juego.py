@@ -422,21 +422,21 @@ def dibujar():
                 listaJugadores1.append(datosJugador)
                 Estado=PERDEDOR
 
-            elif verificarTodosAbajo(dicIngredientes) and timer>=2.8:
+            elif verificarTodosAbajo(dicIngredientes) and timer>=2.8: #si ya bajaron todos los ingredientes gana
                 Estado = GANADOR
                 listaJugadores1.append(datosJugador)
         
         pygame.display.flip()  # Actualiza trazos (Si no llamas a esta función, no se dibuja)
         reloj.tick(40)  # 40 fps
-        tiempo+=1/40
-        timer+=1/40
+        tiempo+=1/40 #tiempo jugando 
+        timer+=1/40  #tiempo que llega máximo a 2 para cambiar de estado
 
     #escribir en el documento los datos del nuevo jugador y los datos anteriores
     salida=open("Jugadores.csv","w",encoding="UTF-8")
     salida.write(titulo)
     if len(datosT)>0:
         for i in range(0,len(datosT)):
-            salida.write("%d,%s,%s\n"%(datosT[i][0],datosT[i][1],datosT[i][2]))
+            salida.write("%d,%s,%s\n"%(datosT[i][0],datosT[i][1],datosT[i][2])) #los datos anteriores se agregan de nuevo al documento
     salida.write("%d,%d,%d\n"%(datosJugador[0],datosJugador[1],datosJugador[2]))
     salida.close()
     # Después del ciclo principal
