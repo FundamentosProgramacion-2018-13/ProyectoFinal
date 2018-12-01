@@ -20,6 +20,25 @@ BLANCO = (255, 255, 255)
 menu = 1
 jugando = 2
 
+#Lectura de archivo
+archivo = open("games.txt", "r")        # Abre el archivo de puntuaciones en modo lectura
+numeros = []                            # Crea una lista vacía para poner los valores que están en el archivo
+for linea in archivo:
+    puntuaciones = linea.split(" ")
+    puntuacioness = puntuaciones.sort()
+    n1 = int(puntuaciones[4])
+    n2 = int(puntuaciones[3])
+    n3 = int(puntuaciones[2])           # Agrega los 5 datos del archivo a la lista(convirtiéndolos en enteros primero)
+    n4 = int(puntuaciones[1])
+    n5 = int(puntuaciones[0])
+    numeros.append(n1)
+    numeros.append(n2)
+    numeros.append(n3)
+    numeros.append(n4)
+    numeros.append(n5)
+minimo = min(numeros)
+extring = ' '.join(str(e) for e in numeros)  # Convierte la lista a string
+
 
 def dibujarPuntosymuerte(puntos,pantalla):      #Se establecen las acciones a tomar cuando el jugador pierde(terminar el juego y texto de puntos(tamaño, posicion y fuente)
     puntuacionn = pygame.font.SysFont('Arial', 60)
@@ -27,7 +46,6 @@ def dibujarPuntosymuerte(puntos,pantalla):      #Se establecen las acciones a to
     pantalla.blit(textomuerte, (150, 300))
     pygame.display.update()
     pygame.time.delay(1000)
-    quit()
 
 def chocar(x1,x2,y1,y2,z11,z12,z21,z22):   #Se definen las situaciones en las que la serpiente estaria chocando
     if (x1 + z11 > x2) and (x2 + z12 > x1) and (x2 + z12 > x1) and (y1 + z11 > y2) and (y2 + z22 > y1):
@@ -106,8 +124,22 @@ def dibujar():
             # Borrar pantalla
             ventana.fill(NEGRO)
             ventana.blit(imgBtnJugar, (ANCHO//2-128, ALTO//2-50))
-            pygame.display.update()
+            highscores = pygame.font.SysFont('Arial', 30)
+            decrhighscores = highscores.render('Puntuaciones más altas: ', True, (BLANCO))
+            high1 = highscores.render(str(n1), True, (UVA))
+            high2 = highscores.render(str(n2), True, (UVA))
+            high3 = highscores.render(str(n3), True, (UVA))
+            high4 = highscores.render(str(n4), True, (UVA))
+            high5 = highscores.render(str(n5), True, (UVA))
 
+            ventana.blit(decrhighscores, (ANCHO//2-128, ALTO//2+100))
+            ventana.blit(high1, (ANCHO//2-128, ALTO//2+125))
+            ventana.blit(high2, (ANCHO//2-128, ALTO//2+150))
+            ventana.blit(high3, (ANCHO//2-128, ALTO//2+175))
+            ventana.blit(high4, (ANCHO//2-128, ALTO//2+200))
+            ventana.blit(high5, (ANCHO//2-128, ALTO//2+225))
+
+            pygame.display.update()
         elif estado == jugando:
 
             comollamarlo = len(inicX) - 1
@@ -128,6 +160,21 @@ def dibujar():
 
             if inicX[0] < 0 or inicX[0] > 780 or inicY[0] < 0 or inicY[0] > 580:
                 dibujarPuntosymuerte(puntuacion, ventana)  # Si la serpiente toca los bordes, se ejecuta la funcion que da finaliza el juego
+
+
+                posicion = numeros.index(minimo)
+                if puntuacion > minimo:
+                    numeros.pop(posicion)               #Después de obtener el menor puntaje de la lista, lo compara con el recién obtenido y si es menor, lo remplaza
+                    numeros.append(puntuacion)
+                archivo.close()
+
+                wrarchivo = open("games.txt", "w")              # Se abre el archivo en modo w para que se sobreescriba
+                estring = ' '.join(str(e) for e in numeros)  # Convierte la lista a string
+                wrarchivo.write(estring)                        # Escribe los nuevos valores en el archivo
+                wrarchivo.close()
+
+                quit()
+
 
             comollamarlo2 = len(inicX) - 1
             while comollamarlo2 >= 1:
@@ -154,13 +201,10 @@ def dibujar():
             ventana.blit(textomuerte, (630, 10))
             pygame.display.update()
 
-    pygame.quit()
-
-
 
 def main():                                                             #funcion main
 
-   dibujar()
+    dibujar()
 
 main()
 
