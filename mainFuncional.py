@@ -33,7 +33,7 @@ imgIcono = pygame.image.load("Icono.png")
 imgGracias = pygame.image.load("Gracias.gif")
 
 # Sonidos
-cancionFondo = pygame.mixer.Sound('Cancion.wav')
+cancionFondo = pygame.mixer.Sound('MainLoop.wav')
 MotorSFX = pygame.mixer.Sound('EngineStart.wav')
 crashSFX = pygame.mixer.Sound('Crash.wav')
 cornetaSFX = pygame.mixer.Sound('Corneta.wav')
